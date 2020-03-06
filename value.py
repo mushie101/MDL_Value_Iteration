@@ -1,16 +1,16 @@
 import numpy as np
-
+actions=['shoot','dodge','recharge']
 
 class Implement():
     def __init__(self):
         self.arrows=3
-        self.actions=['shoot','dodge','recharge']
         self.max_lero_stamina=100
         self.max_MD_health=100
         self.penalty=-20
         self.gamma=0.99
         self.delta=0.001
         self.reward=100
+        self.utility = [[0 for i in range(3)]for j in range(3)]
 
 
     def happy_ending(self):
@@ -40,12 +40,20 @@ class Implement():
             self.stamina -= 50
             if self.ammo < 3:  self.ammo += 1
 
-def value_iteration():
-    V=np.zeroes()
+    def value_iteration():
+            count=0
+            while(1):
+                print("Iteration number ",count)
+                for i in range(3):
+                    min_val=0
+                    for l in actions:
+                        if l=="shoot":
 
-def update_q(self, state, action, reward, new_state):
-        self.Q_table[state][action] += self.lr * (reward + self.discount * np.max(self.Q_table[new_state]) - self.Q_table[state][action])
+                        if l=="recharge":
 
+                        if l=="dodge":
+
+                count++
 
 
 
