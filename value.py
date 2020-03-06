@@ -86,24 +86,45 @@ class Implement():
         #self.aa=self.aa.reshape(1,60)
         #for i in range(60):
         print(np.shape(self.aa))  #totally have 60 rows in which , each row has array with three elements
-        me=np.zeros((60,60))     #created 60*60 matrix for transiiton probability function
+        act1=np.zeros((60,60))     #created 60*60 matrix for transiiton probability function
         print(np.shape(me))   #printing it's dimensions
         for ii in range(60):
             for jj in range(60):
+                #below statement is for printing and checking values in 60*60 matrix if they are having correct comparision
+                #print(self.aa[ii][0],self.aa[ii][1],self.aa[ii][2],self.aa[jj][0],self.aa[jj][1],self.aa[jj][2])
                 #condition when arrows or stamina or health increases which can actuallly never happen , so zero
                 if(self.aa[ii][2]<self.aa[jj][2] or self.aa[ii][1]<self.aa[jj][1] or self.aa[ii][0]<self.aa[jj][0]):
-                    me[ii][jj]=0
+                    act1[ii][jj]=0
                 #condition when health got reduced and even arrow which means hit MD with arrow with probabitlity 0.5
                 if((self.aa[ii][0]-self.aa[jj][0])==1 and (self.aa[ii][1]-self.aa[jj][1])==1):
-                    me[ii][jj]=0.5
+                    act1[ii][jj]=0.5
                 #condition when hit with arrow but didn't touch
                 if((self.aa[ii][0]-self.aa[jj][0])==0 and (self.aa[ii][1]-self.aa[jj][1])==1):
-                    me[ii][jj]=0.5
+                    act1[ii][jj]=0.5
 
 
-
-
+    def recharge_transition(self):
+        self.bb=[]
+        self.h=5
+        self.a=4
+        self.s=3
+        for i in range(self.h):
+            for j in range(self.a):
+                for k in range(self.s):
+                    self.me=(i,j,k)
+                    self.calc=np.asarray(self.me)
+                    self.bb.append(self.calc)
+        print(np.shape(self.bb))
+        act3=np.zeros((60,60))
+        for l in range(60):
+            for m in range(60):
+                #below condition checks if stamina is increased by 50 points which means 1 , so it is with probability 0.8 as given
+                if((self.bb[m][2]-self.bb[l][2])==1):
+                    act3[l][m]=0.8
+                #below condition checks if stamina is not increased by 50 points which means 1 , so it is with probability 0.2 as given
+                if((self.bb[m][2]-self.bb[l][2])==0):
+                    act3[l][m]=0.2
 
 if __name__=='__main__':
     final=Implement()
-    final.shoot_transition()
+    final.recharge_transition()
