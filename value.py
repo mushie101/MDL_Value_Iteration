@@ -55,7 +55,7 @@ class Implement():
                 self.stamina = 0  
                 self.stamina_value =0 #with probability 1
             #if self.ammo < 3:  self.ammo += 1
-
+    '''
     def value_iteration():
             count=0
             while(1):
@@ -70,9 +70,24 @@ class Implement():
                         if l=="dodge":
 
                 count++
+    '''
 
+    def shoot_transition(self):
+        self.aa=[]
+        self.h=5
+        self.a=4
+        self.s=3
+        for i in range(self.h):
+            for j in range(self.a):
+                for k in range(self.s):
+                    self.me=(i,j,k)
+                    self.calc=np.asarray(self.me)
+                    self.aa.append(self.calc)
+        #self.aa=self.aa.reshape(1,60)
+        #for i in range(60):
+        print(np.shape(self.aa))  #totally have 60 rows in which , each row has array with three elements
 
 
 if __name__=='__main__':
-    res=''
-    main()
+    final=Implement()
+    final.shoot_transition()
