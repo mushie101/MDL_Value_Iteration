@@ -13,6 +13,32 @@ class Implement():
         self.reward=100
 
 
+    def happy_ending(self):
+        self.net_reward += self.final_reward
+        self.end_game = True
+    
+    def Shoot(self):
+        self.hit_probability = 0.5
+        if self.current_ammo >= 1:
+            self.current_ammo -= 1
+            self.stamina -= 50
+            if self.hit == True:
+                self.md_health -= 25
+        if self.stamina == 0 or self.ammo == 0:
+            self.shoot = False
+    
+    def Recharge(self):
+        self.recharge_probability = 0.8
+        if self.recharge == True:
+            self.stamina += 50
+            if self.stamina > 100: self.stamina = 100
+
+    def Dodge(self):
+        self.dodge_probability = 0.8 
+        self.arrow_pick_probability = 0.8
+        if self.dodge == True():
+            self.stamina -= 50
+            if self.ammo < 3:  self.ammo += 1
 
 def value_iteration():
     V=np.zeroes()
