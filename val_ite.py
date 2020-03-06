@@ -2,6 +2,8 @@ import numpy as np
 
 class MD_saga_part_1():
     def __init__(self):
+        self.x = 48
+        self.y = -20
         self.max_ammo = 3
         self.current_ammo = 3
         self.health_val = 4
@@ -20,6 +22,7 @@ class MD_saga_part_1():
     
     def Shoot(self):
         self.hit_probability = 0.5
+        self.shoot_cost = -2.5
         if self.current_ammo >= 1 and self.stamina_val >= 1:
             self.current_ammo -= 1
             self.stamina_val -= 1
@@ -29,12 +32,14 @@ class MD_saga_part_1():
             self.shoot = False
     
     def Recharge(self):
+        self.recharge_cost = -2.5
         self.recharge_probability = 0.8
         if self.recharge == True:
             self.stamina_val+=1
             if self.stamina_val > 2: self.stamina_val=2
 
     def Dodge(self):
+        self.dodge_cost = -2.5
         self.dodge_probability = 0.8 
         self.arrow_pick_probability = 0.8
         if self.dodge == True():
