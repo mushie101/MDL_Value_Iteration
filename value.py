@@ -143,16 +143,22 @@ class Implement():
                 #below condition if he has stamina 100 points at first (which means 2) 
                 if(self.cc[u][2]==2):
                     #below condition if stamina reduces from 100 to 50 then probability is 0.8
-                    if((self.bb[u][2]-self.bb[v][2])==1):
+                    if((self.cc[u][2]-self.cc[v][2])==1):
                         act2[u][v]=0.8
                     #below condition if stamina reduces from 100 to 0 then probability is 0.2
-                    if((self.bb[u][2]-self.bb[v][2])==2):
+                    if((self.cc[u][2]-self.cc[v][2])==2):
                         act2[u][v]=0.2
                 #below condition if he has stamina 50 points at first (which means 1) 
                 if(self.cc[u][2]==1):
                     #below condition when stamina drops down to 0 from 50 then probability is 1
-                    if((self.bb[u][2]-self.bb[v][2])==1):
+                    if((self.cc[u][2]-self.cc[v][2])==1):
                         act2[u][v]=1
+                #below condition if he picks an arrow , 
+                if((self.cc[u][2]-self.cc[v][2])==1):
+                    act2[u][v]=0.8
+                #below condition if he doesn't pick an arrow    
+                if((self.cc[u][2]-self.cc[v][2])==0):
+                    act2[u][v]=0.2
 
 
 
