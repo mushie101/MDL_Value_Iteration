@@ -125,6 +125,37 @@ class Implement():
                 if((self.bb[m][2]-self.bb[l][2])==0):
                     act3[l][m]=0.2
 
+    def dodge_transition(self):
+        self.cc=[]
+        self.h=5
+        self.a=4
+        self.s=3
+        for i in range(self.h):
+            for j in range(self.a):
+                for k in range(self.s):
+                    self.me=(i,j,k)
+                    self.calc=np.asarray(self.me)
+                    self.cc.append(self.calc)
+        print(np.shape(self.bb))
+        act2=np.zeros((60,60))
+        for u in range(60):
+            for v in range(70):
+                #below condition if he has stamina 100 points at first (which means 2) 
+                if(self.cc[u][2]==2):
+                    #below condition if stamina reduces from 100 to 50 then probability is 0.8
+                    if((self.bb[u][2]-self.bb[v][2])==1):
+                        act2[u][v]=0.8
+                    #below condition if stamina reduces from 100 to 0 then probability is 0.2
+                    if((self.bb[u][2]-self.bb[v][2])==2):
+                        act2[u][v]=0.2
+                #below condition if he has stamina 50 points at first (which means 1) 
+                if(self.cc[u][2]==1):
+                    #below condition when stamina drops down to 0 from 50 then probability is 1
+                    if((self.bb[u][2]-self.bb[v][2])==1):
+                        act2[u][v]=1
+
+
+
 if __name__=='__main__':
     final=Implement()
     final.recharge_transition()
