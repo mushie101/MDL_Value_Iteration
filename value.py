@@ -86,6 +86,22 @@ class Implement():
         #self.aa=self.aa.reshape(1,60)
         #for i in range(60):
         print(np.shape(self.aa))  #totally have 60 rows in which , each row has array with three elements
+        me=np.zeros((60,60))     #created 60*60 matrix for transiiton probability function
+        print(np.shape(me))   #printing it's dimensions
+        for ii in range(60):
+            for jj in range(60):
+                #condition when arrows or stamina or health increases which can actuallly never happen , so zero
+                if(self.aa[ii][2]<self.aa[jj][2] or self.aa[ii][1]<self.aa[jj][1] or self.aa[ii][0]<self.aa[jj][0]):
+                    me[ii][jj]=0
+                #condition when health got reduced and even arrow which means hit MD with arrow with probabitlity 0.5
+                if((self.aa[ii][0]-self.aa[jj][0])==1 and (self.aa[ii][1]-self.aa[jj][1])==1):
+                    me[ii][jj]=0.5
+                #condition when hit with arrow but didn't touch
+                if((self.aa[ii][0]-self.aa[jj][0])==0 and (self.aa[ii][1]-self.aa[jj][1])==1):
+                    me[ii][jj]=0.5
+
+
+
 
 
 if __name__=='__main__':
