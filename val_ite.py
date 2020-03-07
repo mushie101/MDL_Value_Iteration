@@ -45,6 +45,11 @@ class MD_saga_part_1():
         if self.dodge == True():
             self.stamina_val -= 1
             if self.ammo < 3:  self.ammo += 1
+    
+    def value_iteration(self):
+        while self.end_game == True:
+            print(hi)
+
 
 
 def main():

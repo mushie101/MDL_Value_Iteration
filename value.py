@@ -5,6 +5,8 @@ y=-20
 
 class Implement():
     def __init__(self):
+        self.discount_factor = 0.99
+        self.bellman_error = 1/1000
         self.arrows=3
         self.current_arrows=3
         self.max_lero_stamina=100
