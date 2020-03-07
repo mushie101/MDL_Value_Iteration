@@ -221,7 +221,7 @@ while(1):
         for j in range(60):
             #print(current_action)
             #modifying action values according to transition functions
-            a+=0.99*act1[j][j]*prev_util[j]  #for shoot action
+            a+=0.99*act1[i][j]*prev_util[j]  #for shoot action
 
             b+=0.99*act2[i][j]*prev_util[j]  #for dodge action
 
@@ -232,15 +232,28 @@ while(1):
         b+=y
         c+=y
         maxh=maximum(a,b,c)
-            #print(maxh,"he")
-
-        #current_util[i]=y+0.99*maxh
-
+        #print(cc[i]) it gives you values of state there suppose cc[2] = (0,0,2) so health 0 , arrows 0 , stamina 2
+        take=cc[i]   #now x has all three values suppose cc[12]=(100) then x[0]=1,x[1]=0,x[2]=0
+        choose="" #declared a string for choosing which action to have
 
         #assigning current utility values to previous utility array
         current_util[i]=maxh
-        print(current_util[i])
-    print()
+
+        #Now write conditions for which action to choose in a given state
+        if(take[1]!=0):
+            if(take[2]==0):
+                choose="RECHARGE"
+            if(take[2]!=0):
+                choose="SHOOT"
+        elif(take[1]==0):
+            if(take[2]==0):
+                choose="RECHARGE"
+            if(take[2]!=0):
+                choose="DODGE"
+        print("(",take[0],take[1],take[2],")",":",choose,"=",maxh)
+
+
+
     #checking is crossed given delta value if yes our function is over
     if(cou==1):
         break
