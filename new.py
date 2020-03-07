@@ -5,9 +5,9 @@ y=-20
 aa=[]
 bb=[]
 cc=[]
-act1=np.zeros((60,60))     #created 60*60 matrix for transiiton probability function
-act3=np.zeros((60,60))
-act2=np.zeros((60,60))
+act1=np.zeros((60,60),dtype=float)     #created 60*60 matrix for transiiton probability function
+act3=np.zeros((60,60),dtype=float)
+act2=np.zeros((60,60),dtype=float)
 def shoot_transition():
     h=5
     a=4
@@ -85,108 +85,60 @@ def dodge_transition():
                 cc.append(calc)
 
 
-    '''
-    #print(np.shape(bb))
-    for u in range(12,60,1):
-        for v in range(60):
-            if(cc[u][2]==0):
-                act2[u][v]=0
-            #below condition if he has stamina 100 points at first (which means 2) 
-            elif(cc[u][2]==2):
-                #below condition if stamina reduces from 100 to 50 then probability is 0.8
-                if(cc[v][2]==1 and (cc[v][1]-cc[u][1])==1):
-                    act2[u][v]=0.64
-                if(cc[v][2]==1 and (cc[v][1]-cc[u][1])==0):
-                    act2[u][v]=0.16
-                #below condition if stamina reduces from 100 to 0 then probability is 0.2
-                if((cc[u][2]-cc[v][2])==2):
-                    act2[u][v]=0.2
-            #below condition if he has stamina 50 points at first (which means 1) 
-            elif(cc[u][2]==1):
-                #below condition when stamina drops down to 0 from 50 then probability is 1 and arrow
-                if((cc[u][2]-cc[v][2])==1 and (cc[v][1]-cc[u][1])==1):
-                    act2[u][v]=0.8
-                if((cc[u][2]-cc[v][2])==1 and (cc[v][1]-cc[u][1])==0):
-                    act2[u][v]=0.2
-    
-    '''
-
     for u in range(12,60):
         for v in range(60):
-            if(cc[u][2]==2):    
-                if(cc[u][1]==3):
-                    if(cc[v][1]==3):
-                        act2[u][v]=0.8
-                if(cc[v][2]==1):
-                    if(cc[v][1]-cc[u][1]==1):
+            if(cc[u][2]==2 and cc[u][0]==cc[v][0]):    
+                if(cc[v][2]==1):  #from 100 to 50
+                    if(cc[u][1]==3 and cc[v][1]==3):
+                            act2[u][v]=0.8
+                    elif(cc[v][1]-cc[u][1]==1):
                         act2[u][v]=0.64
-                    if(cc[v][1]==cc[u][1]):
+                    elif(cc[v][1]==cc[u][1]):
                         act2[u][v]=0.16
-                if(cc[v][2]==0):
-                    if(cc[v][1]-cc[u][1]==1):
+                elif(cc[v][2]==0):      #from 100 to 100
+                    if(cc[u][1]==3 and cc[v][1]==3):
+                            act2[u][v]=0.2
+                    elif(cc[v][1]-cc[u][1]==1):
                         act2[u][v]=0.16
-                    if(cc[v][1]==cc[u][1]):
-                        act2[u][v]=0.4
-                if(cc[u][0]!=cc[v][0]):
-                    act2[u][v]=0
+                    elif(cc[v][1]==cc[u][1]):
+                        act2[u][v]=0.04
+         
 
-            if(cc[u][2]==1):  
-
-                if(cc[u][1]==3):
-                    if(cc[v][1]==3):
-                        act2[u][v]=0.2
-                if(cc[v][2]==0):
-                    if(cc[v][1]-cc[u][1]==1):
+            elif(cc[u][2]==1 and cc[u][0]==cc[v][0]):  
+                if(cc[v][2]==0):   #from 50 to 0 
+                    if(cc[u][1]==3 and cc[v][1]==3):
+                            act2[u][v]=1
+                    elif(cc[v][1]-cc[u][1]==1):
                         act2[u][v]=0.8
                     if(cc[v][1]==cc[u][1]):
                         act2[u][v]=0.2
-                '''
-                if(cc[v][2]!=0):
-                    if(cc[v][1]-cc[u][1]==1):
-                        act2[u][v]=0.2
-                    if(cc[v][1]==cc[u][1]):
-                        act2[u][v]=1
-                '''
-                if(cc[u][0]!=cc[v][0]):
-                    act2[u][v]=0
+            elif(cc[u][2]==0):
+                act2[u][u]=1
 
 
-            if(cc[u][2]==0):
-                if(cc[u][1]==3):
-                    if(cc[v][1]==3):
-                        act2[u][v]=1
-                if((cc[v][1]!=cc[u][1])):
-                    act2[u][v]=0
-                if((cc[u][0]!=cc[v][0])):
-                    act2[u][v]=0
-                if(cc[u][2]!=cc[v][2]):
-                    act2[u][v]=0
-
-            if(cc[u][1]==3):
-                if(cc[v][1]!=3):
-                    act2[u][v]=0
-
-
-
-
+'''
     coun=0
-    for i in range(12,60,1):
+    for i in range(0,60,1):
         for j in range(0,60,1):
             if(act2[i][j]!=0):
+                print(i,"-->",j,act2[i][j])
                 coun=coun+1
     print(coun,"dodge")  
-
+'''
 def maximum(a, b, c): 
   
-    if (a >= b) and (a >= b): 
+    if (a >= b) and (a >= c): 
         largest = a 
   
-    elif (b >= a) and (b >= a): 
+    elif (b >= a) and (b >= c): 
         largest = b 
     else: 
         largest = c 
           
     return largest 
+
+
+
 
 
 cou=0
@@ -227,7 +179,6 @@ while(1):
 
             c+=0.99*act3[i][j]*prev_util[j]  #for recharge action
 
-
         a+=y
         b+=y
         c+=y
@@ -236,25 +187,159 @@ while(1):
         take=cc[i]   #now x has all three values suppose cc[12]=(100) then x[0]=1,x[1]=0,x[2]=0
         choose="" #declared a string for choosing which action to have
 
-        #assigning current utility values to previous utility array
-        current_util[i]=maxh
-
-        #Now write conditions for which action to choose in a given state
-        if(take[1]!=0):
-            if(take[2]==0):
-                choose="RECHARGE"
-            if(take[2]!=0):
+        if(a==b and b==c and c==a):
+            if(take[1]!=0 and take[2]!=0):
                 choose="SHOOT"
-        elif(take[1]==0):
-            if(take[2]==0):
-                choose="RECHARGE"
-            if(take[2]!=0):
+                maxh=a
+                if(take[1]>take[2]):
+                    choose="SHOOT"
+                    maxh=a
+            elif(take[2]!=0):
                 choose="DODGE"
-        print("(",take[0],take[1],take[2],")",":",choose,"=",maxh)
+                maxh=b
+            else:
+                choose="RECHARGE"
+                maxh=c
+        elif(a!=b or b!=c or c!=a):
+            #case 1 if any two of them are equal , total 3 kind of these cases will come
+            if(a==b and a==maxh): #shoot or dodge
+                if(take[1]!=0 and take[2]!=0):
+                    choose="SHOOT"
+                    maxh=a
+                if(take[1]>take[2]):
+                    choose="SHOOT"
+                    maxh=a
+                elif(take[2]!=0):
+                    choose="DODGE"
+                    maxh=b
+            if(b==c and b==maxh):  #dodge or recharge
+                if(take[2]!=0):
+                    choose="DODGE"
+                    maxh=b
+                else:
+                    choose="RECHARGE"
+                    maxh=c
+            if(c==a and c==maxh): #shoot or recharge
+                if(take[1]!=0 and take[2]!=0):
+                    choose="SHOOT"
+                    maxh=a
+                else:
+                    choose="RECHARGE"
+                    maxh=c
+            #4th test case
+            elif(a!=b and b!=c and c!=a):
+                if(maxh==a):
+                    if(take[1]!=0 and take[2]!=0):
+                        choose="SHOOT"
+                        maxh=a 
+                    if(take[1]>take[2]):
+                        choose="SHOOT"
+                        maxh=a
+                    #choose next max here and give it
+                    else:
+                        second=0
+                        if(maxh==a):
+                            if(b>c and b<a):
+                                second=b
+                            else:
+                                second=c
+                        if(maxh==b):
+                            if(a>c and a<b):
+                                second=a
+                            else:
+                                second=c
+                        if(maxh==c):
+                            if(a>b and a<c):
+                                second=b
+                            else:
+                                second=a
+                        if(second==a):
+                            if(take[1]!=0 and take[2]!=0):
+                                choose="SHOOT"
+                                maxh=a
+                        elif(second==b):
+                                if(take[2]!=0):
+                                    choose="DODGE"
+                                    maxh=b
+                        elif(second==c):
+                                choose="RECHARGE"
+                                maxh=c
+                        
+                elif(maxh==b):
+                    if(take[2]!=0):
+                        choose="DODGE"
+                        maxh=b
+                        #choose next max here and give it
+                    
+                    else:
+                        second=0
+                        if(maxh==a):
+                            if(b>c and b<a):
+                                second=b
+                            else:
+                                second=c
+                        if(maxh==b):
+                            if(a>c and a<b):
+                                second=a
+                            else:
+                                second=c
+                        if(maxh==c):
+                            if(a>b and a<c):
+                                second=b
+                            else:
+                                second=a
+                        if(second==a):
+                            if(take[1]!=0 and take[2]!=0):
+                                choose="SHOOT"
+                                maxh=a
+                        elif(second==b):
+                                if(take[2]!=0):
+                                    choose="DODGE"
+                                    maxh=b
+                        elif(second==c):
+                                choose="RECHARGE"
+                                maxh=c
+                        
 
+                elif(maxh==c):
+                    choose="RECHARGE"
+                    maxh=c
+
+            #6th testcase
+            else:
+                store=maxh
+                if(maxh==a):
+                    if(take[1]!=0 and take[2]!=0):
+                        choose="SHOOT"
+                        maxh=a
+                elif(maxh==b):
+                    if(take[2]!=0):
+                        choose="DODGE"
+                        maxh=b
+                elif(maxh==c):
+                    choose="RECHARGE"
+                    maxh=c
+
+
+
+        current_util[i]=maxh
+        #print(a,b,c,"Values")
+        print("(",take[0],take[1],take[2],")",":",choose,"=",current_util[i])
+        print()
+        print()
+    for i in range(60):
+        prev_util[i]=current_util[i]
 
 
     #checking is crossed given delta value if yes our function is over
-    if(cou==1):
+    final=np.zeros((60,1))
+    for iy in range(60):
+        final[iy]=current_util[iy]-prev_util[iy]
+
+    store=np.max(final)
+    if(cou>10):
         break
 
+    #current_util[i]=0
+    for i in range(60):
+        current_util[i]=0
